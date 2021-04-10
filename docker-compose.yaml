@@ -2,21 +2,13 @@ version: '3.6'
 
 services:
   web:
-    build:
-      context: ./app
-      dockerfile: Dockerfile.prod
-    command: gunicorn django_proj.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - static_volume:/home/app/web/staticfiles
-      - media_volume:/home/app/web/mediafiles
-    expose:
-      - 8000
-    env_file:
-      - ./.env.prod
+    build: app/.
+    ports:
+      - 8000:8000
     depends_on:
       - postgresql
   postgresql:
-#    restart: always
+    restart: always
     image: sameersbn/postgresql:10-2
     ports:
       - 5432:5432
